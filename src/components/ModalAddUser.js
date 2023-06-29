@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import {
     Button,
     Dialog,
@@ -6,29 +6,60 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
+import { postCreatUser } from '../service/UserService'
+import { toast } from 'react-toastify'
 
 const ModalAddUser = (props) => {
-    const { handleOpen, handleClose } = props
+    const { open, handelClose, handleUpdateTable } = props
+    const [name, setName] = useState('')
+    const [job, setJob] = useState('')
+
+    const handleSaveUser = async () => {
+        let res = await postCreatUser(name, job)
+        if (res && res.id) {
+            handelClose()
+            setJob('')
+            setName('')
+            toast.success("A user has been created")
+            handleUpdateTable({ first_name: name, id: res.id })
+        } else {
+            toast.error("Opp..., Error")
+        }
+
+    }
+
     return (
         <Fragment>
-            <Dialog open={false} handler={handleOpen}>
-                <DialogHeader>Its a simple dialog.</DialogHeader>
+            <Dialog open={open} handler={handelClose}>
+                <DialogHeader>Add more User</DialogHeader>
                 <DialogBody divider>
-                    The key to more success is to have a lot of pillows. Put it this way, it took me
-                    twenty five years to get these plants, twenty five years of blood sweat and tears, and
-                    I&apos;m never giving up, I&apos;m just getting started. I&apos;m up to something. Fan
-                    luv.
+                    <div className="mb-3">
+                        <label>Name</label>
+                        <input
+                            className="border border-gray-900 w-full"
+                            type="text"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label>Email</label>
+                        <input
+                            className="border border-gray-900 w-full"
+                            type="text"
+                            value={job}
+                            onChange={(event) => setJob(event.target.value)}
+                        />
+                    </div>
                 </DialogBody>
                 <DialogFooter>
                     <Button
-                        variant="text"
-                        color="red"
-                        onClick={handleOpen}
-                        className="mr-1"
+                        onClick={handelClose}
+                        className="mr-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
                     >
                         <span>Cancel</span>
                     </Button>
-                    <Button variant="gradient" color="green" onClick={handleOpen}>
+                    <Button variant="gradient" className="bg-blue-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onClick={() => handleSaveUser()}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>

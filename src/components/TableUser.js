@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react"
 import axios from 'axios';
 import { fetchAllUser } from "../service/UserService";
 import ReactPaginate from "react-paginate";
-// import Model from './Model'
+import ModalAddUser from "./ModalAddUser";
 const TableUser = (props) => {
+
 
     const [listUsers, setListUsers] = useState([])
     const [totalUsers, setTotalUsers] = useState(0)
     const [totalPages, setTotalPages] = useState(0)
 
+    const [isOpenAdd, setIsOpenAdd] = useState(false)
+    const handelClose = () => {
+        setIsOpenAdd(false)
+    }
+    const handleUpdateTable = (user) => {
+        setListUsers([user, ...listUsers])
+    }
     useEffect(() => {
         getUser(1)
     }, [])
@@ -25,14 +33,12 @@ const TableUser = (props) => {
     const handlePageClick = (event) => {
         getUser(+event.selected + 1)
     }
-    const handleUpdateTable = (user) => {
-        setListUsers([user, ...listUsers])
-    }
     return (
         <div>
-            {/* <Model
-                handleUpdateTable={handleUpdateTable}
-            /> */}
+            <div className='mt-20 flex justify-between mx-40'>
+                <span>List User</span>
+                <button className='bg-blue-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' onClick={() => { setIsOpenAdd(true) }}>Add new User</button>
+            </div>
             <div className="flex flex-col container mx-10">
                 <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -66,8 +72,9 @@ const TableUser = (props) => {
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.email}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.first_name}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.last_name}</td>
-                                                    <td className="flex">
-
+                                                    <td className="flex mt-2">
+                                                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>
+                                                        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
                                                     </td>
                                                 </tr>
                                             )
@@ -99,6 +106,11 @@ const TableUser = (props) => {
                     </div>
                 </div>
             </div>
+            <ModalAddUser
+                open={isOpenAdd}
+                handelClose={handelClose}
+                handleUpdateTable={handleUpdateTable}
+            />
         </div>
     )
 }
