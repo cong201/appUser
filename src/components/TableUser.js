@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import axios from 'axios';
 import { fetchAllUser } from "../service/UserService";
 import ReactPaginate from "react-paginate";
-import Model from './Model'
+// import Model from './Model'
 const TableUser = (props) => {
 
     const [listUsers, setListUsers] = useState([])
@@ -30,9 +30,9 @@ const TableUser = (props) => {
     }
     return (
         <div>
-            <Model
+            {/* <Model
                 handleUpdateTable={handleUpdateTable}
-            />
+            /> */}
             <div className="flex flex-col container mx-10">
                 <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
                     <div className="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -52,6 +52,9 @@ const TableUser = (props) => {
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                             Last Name
                                         </th>
+                                        <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Action
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,6 +66,9 @@ const TableUser = (props) => {
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.email}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.first_name}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.last_name}</td>
+                                                    <td className="flex">
+
+                                                    </td>
                                                 </tr>
                                             )
                                         })
