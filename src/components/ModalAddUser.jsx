@@ -30,7 +30,7 @@ const ModalAddUser = (props) => {
 
     return (
         <Fragment>
-            <Dialog open={open} handler={handelClose}>
+            <Dialog open={open}>
                 <DialogHeader>Add more User</DialogHeader>
                 <DialogBody divider>
                     <div className="mb-3">
@@ -60,7 +60,7 @@ const ModalAddUser = (props) => {
                         <span>Cancel</span>
                     </Button>
                     <Button variant="gradient" className="bg-blue-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onClick={() => handleSaveUser()}>
-                        <span>Confirm</span>
+                        <span>Add</span>
                     </Button>
                 </DialogFooter>
             </Dialog>

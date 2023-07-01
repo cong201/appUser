@@ -3,20 +3,34 @@ import axios from 'axios';
 import { fetchAllUser } from "../service/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddUser from "./ModalAddUser";
+import ModalEditUser from "./ModalEditUser";
+import _ from "lodash"
 const TableUser = (props) => {
-
 
     const [listUsers, setListUsers] = useState([])
     const [totalUsers, setTotalUsers] = useState(0)
     const [totalPages, setTotalPages] = useState(0)
 
     const [isOpenAdd, setIsOpenAdd] = useState(false)
+    const [isOpenEdit, setIsOpenEdit] = useState(false)
+    const [dataUserEdit, setDataUserEdit] = useState({})
+
+
     const handelClose = () => {
         setIsOpenAdd(false)
+        setIsOpenEdit(false)
     }
+
     const handleUpdateTable = (user) => {
         setListUsers([user, ...listUsers])
     }
+    const handleEditUserFromModal = (user) => {
+        let cloneListUser = _.cloneDeep(listUsers)
+        let index = listUsers.findIndex(item => item.id === user.id)
+        cloneListUser[index].first_name = user.first_name
+        setListUsers(cloneListUser)
+    }
+
     useEffect(() => {
         getUser(1)
     }, [])
@@ -28,6 +42,10 @@ const TableUser = (props) => {
             setListUsers(res.data)
             setTotalPages(res.total_pages)
         }
+    }
+    const handleEditUser = (user) => {
+        setDataUserEdit(user)
+        setIsOpenEdit(true)
     }
 
     const handlePageClick = (event) => {
@@ -73,7 +91,10 @@ const TableUser = (props) => {
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.first_name}</td>
                                                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{item.last_name}</td>
                                                     <td className="flex mt-2">
-                                                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">Edit</button>
+                                                        <button
+                                                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2"
+                                                            onClick={() => handleEditUser(item)}
+                                                        >Edit</button>
                                                         <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
                                                     </td>
                                                 </tr>
@@ -110,6 +131,12 @@ const TableUser = (props) => {
                 open={isOpenAdd}
                 handelClose={handelClose}
                 handleUpdateTable={handleUpdateTable}
+            />
+            <ModalEditUser
+                open={isOpenEdit}
+                dataUserEdit={dataUserEdit}
+                handelClose={handelClose}
+                handleEditUserFromModal={handleEditUserFromModal}
             />
         </div>
     )
