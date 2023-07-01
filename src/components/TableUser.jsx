@@ -4,6 +4,7 @@ import { fetchAllUser } from "../service/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 import _ from "lodash"
 const TableUser = (props) => {
 
@@ -12,13 +13,18 @@ const TableUser = (props) => {
     const [totalPages, setTotalPages] = useState(0)
 
     const [isOpenAdd, setIsOpenAdd] = useState(false)
+
     const [isOpenEdit, setIsOpenEdit] = useState(false)
     const [dataUserEdit, setDataUserEdit] = useState({})
+
+    const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
+    const [dataUserDelete, setDataUserDetele] = useState({})
 
 
     const handelClose = () => {
         setIsOpenAdd(false)
         setIsOpenEdit(false)
+        setIsOpenModalDelete(false)
     }
 
     const handleUpdateTable = (user) => {
@@ -29,6 +35,17 @@ const TableUser = (props) => {
         let index = listUsers.findIndex(item => item.id === user.id)
         cloneListUser[index].first_name = user.first_name
         setListUsers(cloneListUser)
+    }
+
+    const handelDeleteUserFromModal = (user) => {
+        let cloneListUser = _.cloneDeep(listUsers)
+        cloneListUser = cloneListUser.filter(item => item.id !== user.id)
+        setListUsers(cloneListUser)
+    }
+
+    const handelDeleteUser = (user) => {
+        setIsOpenModalDelete(true)
+        setDataUserDetele(user)
     }
 
     useEffect(() => {
@@ -95,7 +112,10 @@ const TableUser = (props) => {
                                                             className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2"
                                                             onClick={() => handleEditUser(item)}
                                                         >Edit</button>
-                                                        <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Delete</button>
+                                                        <button
+                                                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                                                            onClick={() => handelDeleteUser(item)}
+                                                        >Delete</button>
                                                     </td>
                                                 </tr>
                                             )
@@ -137,6 +157,12 @@ const TableUser = (props) => {
                 dataUserEdit={dataUserEdit}
                 handelClose={handelClose}
                 handleEditUserFromModal={handleEditUserFromModal}
+            />
+            <ModalDeleteUser
+                open={isOpenModalDelete}
+                handelClose={handelClose}
+                dataUserDelete={dataUserDelete}
+                handelDeleteUserFromModal={handelDeleteUserFromModal}
             />
         </div>
     )
