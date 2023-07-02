@@ -15,3 +15,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.sort-header{
+  display : flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.i-header{
+  cursor: pointer;
+  padding:0 2px;
+}

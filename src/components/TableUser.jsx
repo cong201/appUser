@@ -5,7 +5,9 @@ import ReactPaginate from "react-paginate";
 import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import _ from "lodash"
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 const TableUser = (props) => {
 
     const [listUsers, setListUsers] = useState([])
@@ -20,6 +22,9 @@ const TableUser = (props) => {
     const [isOpenModalDelete, setIsOpenModalDelete] = useState(false)
     const [dataUserDelete, setDataUserDetele] = useState({})
 
+    const [sortBy, setSortBy] = useState("asc")
+    const [sortField, setSortField] = useState("id")
+
 
     const handelClose = () => {
         setIsOpenAdd(false)
@@ -30,6 +35,12 @@ const TableUser = (props) => {
     const handleUpdateTable = (user) => {
         setListUsers([user, ...listUsers])
     }
+
+    const handleEditUser = (user) => {
+        setDataUserEdit(user)
+        setIsOpenEdit(true)
+    }
+
     const handleEditUserFromModal = (user) => {
         let cloneListUser = _.cloneDeep(listUsers)
         let index = listUsers.findIndex(item => item.id === user.id)
@@ -37,15 +48,15 @@ const TableUser = (props) => {
         setListUsers(cloneListUser)
     }
 
+    const handelDeleteUser = (user) => {
+        setIsOpenModalDelete(true)
+        setDataUserDetele(user)
+    }
+
     const handelDeleteUserFromModal = (user) => {
         let cloneListUser = _.cloneDeep(listUsers)
         cloneListUser = cloneListUser.filter(item => item.id !== user.id)
         setListUsers(cloneListUser)
-    }
-
-    const handelDeleteUser = (user) => {
-        setIsOpenModalDelete(true)
-        setDataUserDetele(user)
     }
 
     useEffect(() => {
@@ -60,14 +71,19 @@ const TableUser = (props) => {
             setTotalPages(res.total_pages)
         }
     }
-    const handleEditUser = (user) => {
-        setDataUserEdit(user)
-        setIsOpenEdit(true)
-    }
 
     const handlePageClick = (event) => {
         getUser(+event.selected + 1)
     }
+
+    const handleSort = (sortBy, sortField) => {
+        setSortBy(sortBy)
+        setSortField(sortField)
+        let cloneListUser = _.cloneDeep(listUsers)
+        cloneListUser = _.orderBy(cloneListUser, [sortField], [sortBy])
+        setListUsers(cloneListUser)
+    }
+
     return (
         <div>
             <div className='mt-20 flex justify-between mx-40'>
@@ -82,13 +98,37 @@ const TableUser = (props) => {
                                 <thead className="bg-gray-200 border-b">
                                     <tr>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            ID
+                                            <div className="sort-header">
+                                                <span>ID</span>
+                                                <span>
+                                                    <FontAwesomeIcon
+                                                        className="i-header"
+                                                        onClick={() => handleSort("desc", "id")}
+                                                        icon={faArrowDown} />
+                                                    <FontAwesomeIcon
+                                                        className="i-header"
+                                                        onClick={() => handleSort("asc", "id")}
+                                                        icon={faArrowUp} />
+                                                </span>
+                                            </div>
                                         </th>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                             Email
                                         </th>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                            First Name
+                                            <div className="sort-header">
+                                                <span>First Name</span>
+                                                <span>
+                                                    <FontAwesomeIcon
+                                                        className="i-header"
+                                                        onClick={() => handleSort("desc", "first_name")}
+                                                        icon={faArrowDown} />
+                                                    <FontAwesomeIcon
+                                                        className="i-header"
+                                                        onClick={() => handleSort("asc", "first_name")}
+                                                        icon={faArrowUp} />
+                                                </span>
+                                            </div>
                                         </th>
                                         <th scope="col" className="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                             Last Name
