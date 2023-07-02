@@ -6,8 +6,9 @@ import ModalAddUser from "./ModalAddUser";
 import ModalEditUser from "./ModalEditUser";
 import ModalDeleteUser from "./ModalDeleteUser";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import _ from "lodash"
+import _, { debounce } from "lodash"
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+
 const TableUser = (props) => {
 
     const [listUsers, setListUsers] = useState([])
@@ -24,6 +25,8 @@ const TableUser = (props) => {
 
     const [sortBy, setSortBy] = useState("asc")
     const [sortField, setSortField] = useState("id")
+
+    const [keywords, setKeywords] = useState("")
 
 
     const handelClose = () => {
@@ -84,11 +87,33 @@ const TableUser = (props) => {
         setListUsers(cloneListUser)
     }
 
+    const handelSearch = debounce((event) => {
+        let term = event.target.value
+        console.log(term);
+        if (term) {
+            let cloneListUser = _.cloneDeep(listUsers)
+            cloneListUser = cloneListUser.filter(item => item.email.includes(term))
+            console.log(cloneListUser);
+            setListUsers(cloneListUser)
+        } else {
+            getUser(1)
+        }
+    }, 300)
+
     return (
         <div>
             <div className='mt-20 flex justify-between mx-40'>
                 <span>List User</span>
                 <button className='bg-blue-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded' onClick={() => { setIsOpenAdd(true) }}>Add new User</button>
+            </div>
+            <div className="justify-between ml-20 ">
+                <input
+                    className="border border-gray-900 p-2 rounded-lg "
+                    placeholder="Search user by email"
+                    style={{ width: '400px' }}
+                    // value={keywords}
+                    onChange={(event) => handelSearch(event)}
+                />
             </div>
             <div className="flex flex-col container mx-10">
                 <div className="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
