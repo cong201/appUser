@@ -4,8 +4,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 
 const navigation = [
-    { name: 'Home', href: '/Home', current: false },
-    { name: 'List user', href: '/listuser', current: false },
+    { name: 'Home', href: '/', current: false },
+    { name: 'List user', href: '/listusers', current: false },
 ]
 
 function Header(...classes) {
@@ -85,7 +85,7 @@ export default function Example() {
                                                         href="#"
                                                         className={Header(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
-                                                        Your Profile
+                                                        Login
                                                     </a>
                                                 )}
                                             </Menu.Item>
@@ -95,17 +95,7 @@ export default function Example() {
                                                         href="#"
                                                         className={Header(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                     >
-                                                        Settings
-                                                    </a>
-                                                )}
-                                            </Menu.Item>
-                                            <Menu.Item>
-                                                {({ active }) => (
-                                                    <a
-                                                        href="#"
-                                                        className={Header(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                                                    >
-                                                        Sign out
+                                                        Log out
                                                     </a>
                                                 )}
                                             </Menu.Item>
