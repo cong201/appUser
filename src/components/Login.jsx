@@ -17,13 +17,6 @@ const Login = () => {
 
     const [loadingApi, setLoadingApi] = useState(false)
 
-    // useEffect(() => {
-    //     let token = localStorage.getItem("token")
-    //     if (token) {
-    //         navigate('/')
-    //     }
-    // }, [])
-
     const handleLogin = async () => {
         if (!email || !password) {
             toast.error("Email or password is required")
@@ -48,7 +41,7 @@ const Login = () => {
     return (
         <div className="login-container mt-40 md:w-1/3 sm:w-1/2">
             <div className="title">Log in</div>
-            <div className="text">Email or username (eve.holt@reqres.in)</div>
+            <div className="text">Email or username (please enter this email: eve.holt@reqres.in)</div>
             <input
                 type="text"
                 placeholder="Email or username"
@@ -58,7 +51,7 @@ const Login = () => {
             <div className="input-2">
                 <input
                     type={isShowPassword === true ? "text" : "password"}
-                    placeholder="Password"
+                    placeholder="Password (you can enter a password of your choice)"
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                 />

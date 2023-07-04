@@ -49,10 +49,11 @@ export default function Example() {
                                     )}
                                 </Disclosure.Button>
                             </div>
+                            <Link to={'/'} className='text-gray-300 font-bold uppercase text-2xl'>App user</Link>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <a href=""><img className="h-40 float-left" src="../src/assets/img/logo.png" alt="/" /></a>
                                 <div className="hidden sm:ml-6 sm:block">
-                                    {user && user.auth || window.location.pathname === '/' &&
+                                    {!user && !user.auth || window.location.pathname === '/' &&
                                         < div className="flex space-x-4">
                                             {navigation.map((item) => (
                                                 <a

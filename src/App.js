@@ -1,33 +1,26 @@
-
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header'
-import TableUser from './components/TableUser';
-import Home from './components/Home';
-import Login from './components/Login';
-import ModalAddUser from './components/ModalAddUser';
 import { ToastContainer, toast } from 'react-toastify';
-import { Router, Routes, Route } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from './context/UserContext';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
-  const { user } = useContext(UserContext);
+  const { user, loginContext } = useContext(UserContext);
 
   console.log("check", user);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      loginContext(localStorage.getItem("email"), localStorage.getItem("token"));
+    }
+  }, [])
 
   return (
     <>
       <div>
         <Header />
-        <Routes>
-          <Route path='/' element=<Home /> />
-          <Route path='/listusers' element=<TableUser /> />
-          <Route path='/login' element=<Login /> />
-        </Routes>
-
-
-        {/* <TableUser /> */}
-
+        <AppRoutes />
       </div>
       <ToastContainer
         position="top-center"
