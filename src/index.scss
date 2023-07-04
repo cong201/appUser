@@ -84,7 +84,7 @@ code {
     }
 
     button[disabled=disabled],
-    button:disabled {
+    button::disabled {
       cursor: not-allowed;
     }
   }
@@ -92,6 +92,11 @@ code {
   .back {
     margin-top: 28px;
     text-align: center;
+
+    &:hover {
+      color: red;
+      text-decoration: underline;
+    }
   }
 
 }

@@ -7,8 +7,13 @@ import Login from './components/Login';
 import ModalAddUser from './components/ModalAddUser';
 import { ToastContainer, toast } from 'react-toastify';
 import { Router, Routes, Route } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from './context/UserContext';
 
 function App() {
+  const { user } = useContext(UserContext);
+
+  console.log("check", user);
 
   return (
     <>
